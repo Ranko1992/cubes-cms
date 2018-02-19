@@ -30,7 +30,7 @@ class ContactController extends Controller
 		]);
 		
 		//sending email logic
-		Mail::to('example@example.com')->send(new ContactForm(
+		Mail::to('tijanic@gmail.com')->send(new ContactForm(
 			$formData['contact_name'],
 			$formData['contact_email'],
 			$formData['contact_question']

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\IndexSlide;
 
 class HomeController extends Controller
 {
@@ -13,14 +14,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-		
-		//$user = \Illuminate\Support\Facades\Auth::user();
-		
-		//$user = \Auth::user();
-		
-		//$user = request()->user();
-		
-		//dd($user);
-        return view('front.home.index');
-    }
+        // using enabled scope from Index slide
+          $indexSlides = IndexSlide::enabled()->orderBy('order_number')->get();
+        
+          return view('front.home.index',[
+              'indexSlides' => $indexSlides
+          ]);
+    
+}
 }
