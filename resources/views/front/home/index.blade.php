@@ -90,7 +90,7 @@
 								</div>
 							</div>
 						</li>
-						@endforeach
+						@endfor
 					</ul>
 				</div>
 			</div>

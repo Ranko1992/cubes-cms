@@ -50,6 +50,6 @@ class LoginController extends Controller
             'password' => 'required|string',
         ]);
         
-        dd('test');
+       
     }
 }
