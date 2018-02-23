@@ -312,7 +312,9 @@
 			{ name: 'others', groups: [ 'others' ] },
 			{ name: 'about', groups: [ 'about' ] }
 		],
-		'removeButtons': 'Print,NewPage,Preview,Save,Form,Checkbox,Radio,Textarea,TextField,Select,ImageButton,Button,HiddenField,Flash,Iframe'
+		'removeButtons': 'Print,NewPage,Preview,Save,Form,Checkbox,Radio,Textarea,TextField,Select,ImageButton,Button,HiddenField,Flash,Iframe',
+                
+                 'filebrowserBrowseUrl' : "{{route('admin.filemenager.popup')}}"
 	});
 </script>
 

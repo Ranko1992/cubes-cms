@@ -136,6 +136,12 @@ Route::middleware('auth')
 	Route::post('/index-slides/enable', 'IndexSlidesController@enable')->name('admin.index-slides.enable');
 	Route::post('/index-slides/disable', 'IndexSlidesController@disable')->name('admin.index-slides.disable');
 	Route::post('/index-slides/reorder', 'IndexSlidesController@reorder')->name('admin.index-slides.reorder');
+        
+        
+        
+        Route::get('/filemenager', 'FileMenagerController@index')->name('admin.filemenager.index');
+        Route::get('/filemenager/popup', 'FileMenagerController@popup')->name('admin.filemenager.popup');
+        Route::any('/filemenager/connector', 'FileMenagerController@connector')->name('admin.filemenager.connector');
 	
 	
 });
