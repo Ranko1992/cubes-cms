@@ -9,10 +9,8 @@
 				<div class="flexslider" data-slidernav="auto" data-transition="slide">
 					<!--The Slides-->
 					<div class="slides">
-						<!--Slide #1 with caption-->
-						
-                                                @foreach($indexSlides as $indexSlide)
-                                                <div class="slide">
+						@foreach($indexSlides as $indexSlide)
+						<div class="slide">
 							<div class="row">
 								<div class="col-sm-6">
 									<img src="{{\Storage::disk('public')->url('/index-slides/' . $indexSlide->photo_filename)}}" alt="{{$indexSlide->title}}" class="animated fadeInDownBig" />
@@ -21,17 +19,16 @@
 									<h2>
 										{{$indexSlide->title}}
 									</h2>
-                                                                    <div>
-                                                                               {{$indexSlide->description}}
-                                                                    </div>
-                                                                    @if(!empty($indexSlide->url))
-									<a href="{{$indexSlide->url}}" class="btn btn-lg btn-primary">More...</a>
-                                                                    @endif
+									<div>
+										{{$indexSlide->description}}
+									</div>
+									@if(!empty($indexSlide->url))
+									<a href="{{$indexSlide->url}}" class="btn btn-lg btn-primary">More</a>
+									@endif
 								</div>
 							</div>
 						</div>
-                                                @endforeach
-	
+						@endforeach
 					</div>
 				</div>
 			</section>

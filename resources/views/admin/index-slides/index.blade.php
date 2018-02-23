@@ -22,10 +22,9 @@
 				Add Slide
 			</a>
 		</div>
-                <form action="{{route('admin.index-slides.reorder')}}" method="post" id="save-order-form" class="btn-group btn-group-sm float-right" 
-                      style="display: none">
+		<form action="{{route('admin.index-slides.reorder')}}" method="post" id="save-order-form" class="btn-group btn-group-sm float-right" style="display: none;">
 			{{csrf_field()}}
-                        <input name="order_ids" value="" type="hidden">
+			<input name="order_ids" value="" type="hidden">
 			<button type="button" class="btn btn-secondary" data-action="cancel-change-order">Cancel</button>
 			<button type="submit" class="btn btn-success">Save Order</button>
 		</form>
@@ -131,7 +130,7 @@
 		</div>
 	</div>
 </form>
-<form method="post" action="{{route('admin.index-slides.disable')}}" class="modal fade" id="enable-record-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<form method="post" action="{{route('admin.index-slides.enable')}}" class="modal fade" id="enable-record-modal" tabindex="-1" role="dialog" aria-hidden="true">
 	{{csrf_field()}}
 	<input type="hidden" name="id" value="">
 	<div class="modal-dialog" role="document">
@@ -155,7 +154,7 @@
 		</div>
 	</div>
 </form>
-<form method="post" action="" class="modal fade" id="disable-record-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<form method="post" action="{{route('admin.index-slides.disable')}}" class="modal fade" id="disable-record-modal" tabindex="-1" role="dialog" aria-hidden="true">
 	{{csrf_field()}}
 	<input type="hidden" name="id" value="">
 	<div class="modal-dialog" role="document">
@@ -182,6 +181,7 @@
 @endsection
 
 @push('footer_javascript')
+<script src="{{url('/skins/admin/vendor/jquery-ui/jquery-ui.min.js')}}" type="text/javascript"></script>
 <script>
 	$('#records-table').on('click', '[data-action="delete"]', function(e) {
 		
@@ -197,8 +197,8 @@
 		
 		deletePopup.modal('show');
 	});
-        
-        	$('#records-table').on('click', '[data-action="enable"]', function(e) {
+	
+	$('#records-table').on('click', '[data-action="enable"]', function(e) {
 		
 		e.preventDefault();
 		
@@ -211,13 +211,13 @@
 		enablePopup.find('[name="id"]').val(id);
 		
 		enablePopup.modal('show');
-	}); 
-        
-            	$('#records-table').on('click', '[data-action="disable"]', function(e) {
+	});
+	
+	$('#records-table').on('click', '[data-action="disable"]', function(e) {
 		
 		e.preventDefault();
 		
-		var target = $(this);   
+		var target = $(this);
 		
 		var id = target.attr('data-id');
 		
@@ -227,69 +227,60 @@
 		
 		disablePopup.modal('show');
 	});
-        
+	
+	
+	
+	$('[data-action="change-order"]').on('click', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		
+		
+		$('#records-table tbody').sortable({
+			'update': function(e, ui) {
 
-        
-        
-        $('[data-action="change-order"').on('click', function(e){
-           e.preventDefault();
-           e.stopPropagation();
-           
-           
-            $('#records-table tbody').sortable({
-          
-            'update' : function(e, ui) {
-                
-            var ids = $(this).sortable('toArray'. {
-                'attribute' : 'data-id'
-            });   
-            
-           $('#save-order-form [name="order_ids"]').val(ids.join(','));
-            }
-            
-        });
-        
-        //set the initial order 
-        var ids = $('#records-table tbody').sortable('toArray'. {
-                'attribute' : 'data-id'
-            });  
-        $('#save-order-form [name="order_ids"]').val(ids.join(','));
-           
-        $('#list-menu').hide();
-        
-        $('#save-order-form').show();
-           
-           
-        });
-        
-        $('[data-action="cancel-change-order"]').on('click', function(e){
-                e.preventDefault();
-                e.stopPropagation();
-                    
-                $('#list-menu').show();
+				var ids = $(this).sortable('toArray', {
+					'attribute': 'data-id'
+				});
 
-                $('#save-order-form').hide();
-                
-                
-                //restore old ordering
-                $('#records.table tbody').sortable('cancel');
-           
-                
-                //remove sortable functionality
-                
-                $('#records.table tbody').sortable('destroy');
-                
-                
-        });
-                                                                                
+				$('#save-order-form [name="order_ids"]').val(ids.join(','));
+			}
+		});
+		
+		
+		//set the initial order
+		var ids = $('#records-table tbody').sortable('toArray', {
+			'attribute': 'data-id'
+		});
+
+		$('#save-order-form [name="order_ids"]').val(ids.join(','));
+		
+		//show/hide sort form and list menu
+		$('#list-menu').hide();
+		
+		$('#save-order-form').show();
+	});
+	
+	$('[data-action="cancel-change-order"]').on('click', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		
+		$('#list-menu').show();
+		
+		$('#save-order-form').hide();
+		
+		//restore old ordering
+		$('#records-table tbody').sortable('cancel');
+		
+		//remove sortable functionality
+		$('#records-table tbody').sortable('destroy');
+	});
+	
+	
+	
+	
 </script>
 @endpush
 
-
 @push('head_links')
-<link href="{{url('/skins/admin/vendor/jquery-ui.min.css/jquery-ui.min.css')}}" rel="stylesheet" type="text/css"/>
-@endpush
-
-@push('footer_javascript')
-<script src="{{url('/skins/admin/vendor/jquery-ui.min.css/jquery-ui.min.js')}}" type="text/javascript"></script>
+<link href="{{url('/skins/admin/vendor/jquery-ui/jquery-ui.min.css')}}" rel="stylesheet" type="text/css"/>
 @endpush
