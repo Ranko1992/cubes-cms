@@ -5,14 +5,20 @@
 			<span class="nav-link-text">Dashboard</span>
 		</a>
 	</li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Index Slides">
-		<a class="nav-link" href="{{route('admin.index-slides.index')}}">
-			<i class="fa fa-fw fa-photo"></i>
-			<span class="nav-link-text">Index slides</span>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Static Pages">
+		<a class="nav-link" href="{{route('admin.static-pages.index')}}">
+			<i class="fa fa-fw fa-newspaper-o"></i>
+			<span class="nav-link-text">Static Pages</span>
 		</a>
 	</li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-		<a class="nav-link" href="{{route('admin.filemenager.index')}}">
+	<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Index Slides">
+		<a class="nav-link" href="{{route('admin.index-slides.index')}}">
+			<i class="fa fa-fw fa-photo"></i>
+			<span class="nav-link-text">Index Slides</span>
+		</a>
+	</li>
+	<li class="nav-item" data-toggle="tooltip" data-placement="right" title="File Manager">
+		<a class="nav-link" href="{{route('admin.filemanager.index')}}">
 			<i class="fa fa-fw fa-dashboard"></i>
 			<span class="nav-link-text">File Manager</span>
 		</a>

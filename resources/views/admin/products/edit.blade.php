@@ -287,7 +287,6 @@
 		'bodyClass': 'block',
 		'allowedContent': true,
 		//'forcePasteAsPlainText': true, // disable paste from word
-		
 		'contentsCss': [
 			"{{url('/skins/front/plugins/bootstrap/dist/css/bootstrap.min.css')}}",
 			"{{url('/skins/front/plugins/font-awesome/css/font-awesome.min.css')}}",
@@ -312,9 +311,10 @@
 			{ name: 'others', groups: [ 'others' ] },
 			{ name: 'about', groups: [ 'about' ] }
 		],
-		'removeButtons': 'Print,NewPage,Preview,Save,Form,Checkbox,Radio,Textarea,TextField,Select,ImageButton,Button,HiddenField,Flash,Iframe',
-                
-                 'filebrowserBrowseUrl' : "{{route('admin.filemenager.popup')}}"
+		'removeButtons': 'Print,NewPage,Preview,Save,Form,Checkbox,Radio,Textarea,TextField,Select,ImageButton,Button,HiddenField,Iframe',
+		
+		'filebrowserBrowseUrl': "{{route('admin.filemanager.popup')}}"
+	
 	});
 </script>
 
