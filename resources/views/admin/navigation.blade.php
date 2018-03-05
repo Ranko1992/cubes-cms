@@ -5,7 +5,7 @@
 			<span class="nav-link-text">Dashboard</span>
 		</a>
 	</li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Static Pages">
+	<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Static Pages">
 		<a class="nav-link" href="{{route('admin.static-pages.index')}}">
 			<i class="fa fa-fw fa-newspaper-o"></i>
 			<span class="nav-link-text">Static Pages</span>

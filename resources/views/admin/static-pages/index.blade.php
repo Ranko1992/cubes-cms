@@ -5,17 +5,16 @@
 	<li class="breadcrumb-item">
 		<a href="{{route('admin.static-pages.index')}}">Static Pages</a>
 	</li>
-        @if(!empty($parentPage))
-         
-        @foreach($parentPage->breadcrumbs() as $breadcrumbPage)
-        <li class="breadcrumb-item">
-                <a href="{{route('admin.static-pages.index', ['parentId' => $breadcrumbPage->id])}}">
-                   {{$breadcrumbPage->short_title}}
-                </a>
-        </li>
-        @endforeach
-         
-         @endif
+	@if(!empty($parentPage))
+	@foreach($parentPage->breadcrumbs() as $breadcrumbPage)
+	<li class="breadcrumb-item">
+		<a href="{{route('admin.static-pages.index', ['parentId' => $breadcrumbPage->id])}}">
+			
+			{{$breadcrumbPage->short_title}}
+		</a>
+	</li>
+	@endforeach
+	@endif
 </ol>
 <h1>Static Pages</h1>
 <hr>			
@@ -30,10 +29,9 @@
 		<div class="btn-group btn-group-sm float-right" id="list-menu">
 			<button type="button" class="btn btn-secondary" data-action="change-order">Change Order</button>
 			<a class="btn btn-secondary" 
-                           
-                        href="{{route('admin.static-pages.add',[
-                            'parentId' => !empty($parentPage) ? $parentPage->id : 0
-                        ])}}">
+			   href="{{route('admin.static-pages.add', [
+				   'parentId' => !empty($parentPage) ? $parentPage->id : 0
+			   ])}}">
 				<i class="fa fa-plus"></i>
 				Add Static page
 			</a>
@@ -75,10 +73,10 @@
 						</td>
 						<td class="text-center">
 							<div class="btn-group">
-								<a  
+								<a 
 									class="btn btn-secondary"
 									href="{{$staticPage->frontendUrl()}}"
-                                                                        target="_blank"
+									target="_blank"
 									title="preview"
 								><i class="fa fa-search-plus"></i></a>
 								<a 

@@ -12,15 +12,15 @@ class StaticPage extends Model
 		
     protected $fillable = [
 		'parent_id', 'short_title', 'title', 'description', 'photo_filename', 'body',
-		'status', 'order_number'                                        
+		'status', 'order_number'
 	];
 	
-                                                                                            
+	
 	//relations
 	public function childPages() {
 		return $this->hasMany(self::class, 'parent_id');
 	}
-                                                                                
+	
 	public function parentPage() {
 		return $this->belongsTo(self::class, 'parent_id');
 	}
@@ -45,7 +45,7 @@ class StaticPage extends Model
 		
 		return route('static-page', [
 			'id' => $this->id,
-			'slug' => str_slug($this->title),  //str_slug - funkcija koja u url stavlja naziv stranice
+			'slug' => str_slug($this->title),
 		]);
 	}
 	
@@ -68,4 +68,3 @@ class StaticPage extends Model
 		return $breadcrumbs;
 	}
 }
-                                                  

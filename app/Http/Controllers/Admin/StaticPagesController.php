@@ -11,45 +11,41 @@ class StaticPagesController extends Controller
 {
 	public function index($parentId = 0) {
 		
-            
 		$staticPages = StaticPage::where('parent_id', '=', $parentId)->orderBy('order_number', 'asc')->get();
-                
-                $parentPage = null;
-                
-                if($parentId != 0){
-                $parentPage = StaticPage::findOrFail($parentId);
-                }
-                
-                
+		
+		$parentPage = null;
+		
+		if($parentId != 0) {
+			$parentPage = StaticPage::findOrFail($parentId);
+		}
+		
+		
 		return view('admin.static-pages.index', [
 			'staticPages' => $staticPages,
-                        'parentPage' =>$parentPage
+			'parentPage' => $parentPage
 		]);
 	}
 	
 	public function add($parentId = 0) {
 		
-            $parentPage = null;
-                
-                if($parentId != 0){
-                $parentPage = StaticPage::findOrFail($parentId);
-                }
-                
-            
-		return view('admin.static-pages.add',[
-                    'parentPage' => $parentPage
-                ]);
+		$parentPage = null;
+		
+		if($parentId != 0) {
+			$parentPage = StaticPage::findOrFail($parentId);
+		}
+		
+		return view('admin.static-pages.add', [
+			'parentPage' => $parentPage
+		]);
 	}
 	
 	public function insert($parentId = 0) {
+		$parentPage = null;
 		
-                $parentPage = null;
-                
-                if($parentId != 0){
-                $parentPage = StaticPage::findOrFail($parentId);
-                }
-                
-           
+		if($parentId != 0) {
+			$parentPage = StaticPage::findOrFail($parentId);
+		}
+		
 		$request = request();
 		
 		$formData = $request->validate([
@@ -59,14 +55,12 @@ class StaticPagesController extends Controller
 			'body' => 'present',
 			'page_photo_file' => 'image|mimes:jpeg|max:10240|dimensions:min_width=100,min_height=100',
 		]);
-                
-                $formData['parent_id'] = !empty($parentPage) ? $parentPage : 0 ;
-                // ili                 = $parentId;
+		
+		$formData['parent_id'] = !empty($parentPage) ? $parentPage->id : 0;
 		
 		$staticPage = new StaticPage($formData);
 		
-               
-		$staticPage->order_number = StaticPage::where('parent_id' , '=' , $parentId)->count() + 1;
+		$staticPage->order_number = StaticPage::where('parent_id', '=', $parentId)->count() + 1;
 		
 		$staticPage->save();
 		
@@ -83,11 +77,18 @@ class StaticPagesController extends Controller
 			
 			$staticPage->photo_filename = $newFileName;
 			$staticPage->save();
+			
+			$photoFilePath = public_path('/storage/static-pages/' . $newFileName);
+			$img = \Image::make($photoFilePath);
+			
+			$img->fit(640, 480);
+			
+			$img->save();
 		}
 		
 		return redirect()->route('admin.static-pages.index', [
-                          'parentId' => $parentId
-                           ])
+					'parentId' => $parentId
+				])
 				->with('systemMessage', 'Static page has been added!');
 	}
 	
@@ -95,10 +96,8 @@ class StaticPagesController extends Controller
 		
 		$staticPage = StaticPage::findOrFail($id);
 		
-                
 		return view('admin.static-pages.edit', [
 			'staticPage' => $staticPage
-      
 		]);
 	}
 	
@@ -142,12 +141,19 @@ class StaticPagesController extends Controller
 			//update new file name in database
 			$staticPage->photo_filename = $newFileName;
 			$staticPage->save();
+			
+			$photoFilePath = public_path('/storage/static-pages/' . $newFileName);
+			$img = \Image::make($photoFilePath);
+			
+			$img->fit(750);//width 750 height auto
+			
+			$img->save();
 		}
 		
 		
-		return redirect()->route('admin.static-pages.index',[
-                    'parentId' =>$staticPage->parent_id
-                ])
+		return redirect()->route('admin.static-pages.index', [
+					'parentId' => $staticPage->parent_id
+				])
 				->with('systemMessage', 'Static page has been saved');
 	}
 	
@@ -162,9 +168,9 @@ class StaticPagesController extends Controller
 		$staticPage->delete();
 		
 		StaticPage::where('order_number', '>', $staticPage->order_number)
-                            ->where('parent_page' , "=" , $staticPage->parent_id)
-                            ->decrement('order_number');
-                                                                                
+				->where('parent_id', '=', $staticPage->parent_id)
+				->decrement('order_number');
+		
 		//see if photo file exists
 		if (
 			$staticPage->photo_filename 
@@ -177,7 +183,7 @@ class StaticPagesController extends Controller
 				->delete('/static-pages/' . $staticPage->photo_filename);
 		}
 		
-		return redirect()->route('admin.static-pages.index',['parentId' =>$staticPage->parent_id])
+		return redirect()->route('admin.static-pages.index')
 				->with('systemMessage', 'Static page has been deleted');
 	}
 	
@@ -189,9 +195,8 @@ class StaticPagesController extends Controller
 		$staticPage->status = StaticPage::STATUS_ENABLED;
 		
 		$staticPage->save();
-	
-                
-		return redirect()->route('admin.static-pages.index', ['parentId' =>$staticPage->parent_id])
+		
+		return redirect()->route('admin.static-pages.index', ['parentId' => $staticPage->parent_id])
 				->with('systemMessage', 'Static page has been enabled');
 	}
 	
@@ -204,7 +209,7 @@ class StaticPagesController extends Controller
 		
 		$staticPage->save();
 		
-		return redirect()->route('admin.static-pages.index',['parentId' =>$staticPage->parent_id])
+		return redirect()->route('admin.static-pages.index', ['parentId' => $staticPage->parent_id])
 				->with('systemMessage', 'Static page has been enabled');
 	}
 	
@@ -228,106 +233,3 @@ class StaticPagesController extends Controller
 				->with('systemMessage', 'Static pages have been reordered');
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

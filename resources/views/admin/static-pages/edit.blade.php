@@ -5,19 +5,16 @@
 	<li class="breadcrumb-item">
 		<a href="{{route('admin.static-pages.index')}}">Static Pages</a>
 	</li>
-        
-        @if(!empty($staticPage->parentPage))
-         
-        @foreach($staticPage->parentPage->breadcrumbs() as $breadcrumbPage)
-        <li class="breadcrumb-item">
-                <a href="{{route('admin.static-pages.index', ['parentId' => $breadcrumbPage->id])}}">
-                   {{$breadcrumbPage->short_title}}
-                </a>
-        </li>
-        @endforeach
-         
-        @endif
-        
+	@if(!empty($staticPage->parentPage))
+	@foreach($staticPage->parentPage->breadcrumbs() as $breadcrumbPage)
+	<li class="breadcrumb-item">
+		<a href="{{route('admin.static-pages.index', ['parentId' => $breadcrumbPage->id])}}">
+			
+			{{$breadcrumbPage->short_title}}
+		</a>
+	</li>
+	@endforeach
+	@endif
 	<li class="breadcrumb-item active">
 		Edit
 	</li>
@@ -31,7 +28,7 @@
 	</div>
 	<div class="card-body">
 
-		<form action="" method="post" enctype="multipart/form-data">
+		<form id="row-form" action="" method="post" enctype="multipart/form-data">
 			{{csrf_field()}}
 			
 			<div class="row">
@@ -122,11 +119,54 @@
 			</div>
 			<div class="form-group text-right">
 				<a href="{{route('admin.static-pages.index', [
-                                    'parentId' => $staticPage->parent_id
-                                ])}}" class="btn btn-secondary">Cancel</a>
+					'parentId' => $staticPage->parent_id
+				])}}" class="btn btn-secondary">Cancel</a>
 				<button name="submit" type="submit" class="btn btn-primary">Save</button>
 			</div>
 		</form>
 	</div>
 </div>
 @endsection
+
+@push('footer_javascript')
+<script src="{{url('/skins/admin/vendor/ckeditor/ckeditor.js')}}" type="text/javascript"></script>
+<script src="{{url('/skins/admin/vendor/ckeditor/adapters/jquery.js')}}" type="text/javascript"></script>
+
+<script>
+$('#row-form [name="body"]').ckeditor({
+	'width': '800px',
+	'height': '700px',
+	'bodyId': 'content',
+	'bodyClass': 'block',
+	'allowedContent': true,
+	//'forcePasteAsPlainText': true, // disable paste from word
+	'contentsCss': [
+		"{{url('/skins/front/plugins/bootstrap/dist/css/bootstrap.min.css')}}",
+		"{{url('/skins/front/plugins/font-awesome/css/font-awesome.min.css')}}",
+		"{{url('/skins/front/css/theme-style.css')}}",
+		"{{url('/skins/front/css/custom-style.css')}}",
+		"{{url('/skins/front/css/colour-blue.css')}}"
+	],
+	'toolbarGroups': [
+		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+		{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+		{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+		{ name: 'forms', groups: [ 'forms' ] },
+		'/',
+		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+		{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+		{ name: 'links', groups: [ 'links' ] },
+		{ name: 'insert', groups: [ 'insert' ] },
+		'/',
+		{ name: 'styles', groups: [ 'styles' ] },
+		{ name: 'colors', groups: [ 'colors' ] },
+		{ name: 'tools', groups: [ 'tools' ] },
+		{ name: 'others', groups: [ 'others' ] },
+		{ name: 'about', groups: [ 'about' ] }
+	],
+	'removeButtons': 'Print,NewPage,Preview,Save,Form,Checkbox,Radio,Textarea,TextField,Select,ImageButton,Button,HiddenField,Iframe',
+
+	'filebrowserBrowseUrl': "{{route('admin.filemanager.popup')}}"
+});
+</script>
+@endpush
